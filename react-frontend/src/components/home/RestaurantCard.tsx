@@ -36,17 +36,28 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
             {restaurant.discount}
           </div>
         )}
-        
+{/*         
         <button
           onClick={toggleFavorite}
-          className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+          className={`absolute top-15 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
             isFavorite 
               ? 'bg-primary-500 text-white' 
               : 'bg-white/90 text-neutral-500 hover:text-primary-500'
           }`}
         >
           <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
-        </button>
+        </button> */}
+               <button
+  onClick={toggleFavorite}
+  className="absolute bottom-2 right-2 w-8 h-8 flex items-center justify-center"
+>
+  <Heart
+    size={20}
+    className={isFavorite ? 'text-red-500' : 'text-gray-400'}
+    fill={isFavorite ? 'currentColor' : 'none'}
+  />
+</button>
+        
         
         {/* Overlay with View Menu button */}
         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -62,7 +73,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
         </div>
         
         {/* Status badge */}
-        <div className={`absolute top-2 right-12 text-white text-xs px-2 py-1 rounded-full ${
+        <div className={`absolute top-2 right-1 text-white text-xs px-2 py-1 rounded-full ${
           restaurant.isOpen ? 'bg-success' : 'bg-neutral-600'
         }`}>
           {restaurant.isOpen ? 'Open' : 'Closed'}

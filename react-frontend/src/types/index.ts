@@ -54,9 +54,11 @@ export interface Order {
   contact: string;
 }
 
-export type ModalType = 'login' | 'signup' | 'contact' | 'profile' | 'food';
+export type ModalType = 'login' | 'signup' | 'contact' | 'profile' | 'food' | 'success';
 
 export interface ModalData {
   foodItem?: MenuItem;
   restaurantId?: string;
+  email?: string;
+  fullName?: string;
 }

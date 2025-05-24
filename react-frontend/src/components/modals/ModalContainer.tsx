@@ -7,6 +7,7 @@ import SignupModal from './SignupModal';
 import ContactModal from './ContactModal';
 import ProfileModal from './ProfileModal';
 import FoodItemModal from './FoodItemModal';
+import SuccessModal from './successModal';
 
 const ModalContainer: React.FC = () => {
   const { isOpen, modalType, closeModal } = useModal();
@@ -23,6 +24,8 @@ const ModalContainer: React.FC = () => {
         return <ProfileModal />;
       case 'food':
         return <FoodItemModal />;
+      case 'success':
+        return <SuccessModal />;
       default:
         return null;
     }

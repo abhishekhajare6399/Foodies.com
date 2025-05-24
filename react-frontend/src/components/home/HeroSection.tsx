@@ -66,7 +66,7 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <div className="relative mt-16 h-[400px] md:h-[500px] overflow-hidden">
+    <div className="relative mt-16 h-[600px] md:h-[600px] lg:h-[600px] overflow-hidden">
       <Slider ref={sliderRef} {...settings} className="h-full">
         {banners.map((banner) => (
           <div key={banner.id} className="h-full">
@@ -76,13 +76,15 @@ const HeroSection: React.FC = () => {
                 alt={banner.title}
                 className="w-full h-full object-cover"
               />
-<div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white px-6 text-center">
-               <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5 }}
-  className="max-w-2xl w-full"
->
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 flex items-center justify-center text-white"> 
+                              <div className="max-w-3xl w-full px-6 text-center">
+
+                            <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="max-w-2xl w-full"
+                >
 
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1">
                     {banner.title}
@@ -97,6 +99,7 @@ const HeroSection: React.FC = () => {
                     Order Now
                   </button>
                 </motion.div>
+              </div>
               </div>
             </div>
           </div>

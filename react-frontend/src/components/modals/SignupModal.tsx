@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { X, Eye, EyeOff, Check } from 'lucide-react';
-
-import { useAuth } from '../../contexts/AuthContext';
+import { X, Eye, EyeOff } from 'lucide-react';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+// import { useAuth } from '../../contexts/AuthContext';
 import { useModal } from '../../contexts/ModalContext';
 
 const SignupModal: React.FC = () => {
-  const { signup } = useAuth();
+  // const { signup } = useAuth();
   const { closeModal, openModal } = useModal();
   
   const [fullName, setFullName] = useState('');
@@ -17,7 +18,8 @@ const SignupModal: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+  const [mobileNumber, setMobileNumber] = useState('');
+
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
   
@@ -25,8 +27,12 @@ const SignupModal: React.FC = () => {
     e.preventDefault();
     setError(null);
     
-    if (!fullName || !email || !password || !confirmPassword) {
+    if (!fullName || !email || !password || !confirmPassword || !mobileNumber) {
       setError('All fields are required');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
       return;
     }
     
@@ -35,8 +41,8 @@ const SignupModal: React.FC = () => {
       return;
     }
     
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters');
       return;
     }
     
@@ -47,9 +53,20 @@ const SignupModal: React.FC = () => {
     
     setIsLoading(true);
     try {
-      const success = await signup(fullName, email, password);
+      const success = await fetch('http://localhost:8080/api/customers/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: fullName,
+          emailId: email,
+          mobileNumber: mobileNumber,
+          password: password,
+          image: '',
+          address: '',
+        }),
+      });
       if (success) {
-        closeModal();
+      openModal('success', { email: email, fullName: fullName});
       } else {
         setError('Could not create account');
       }
@@ -110,6 +127,17 @@ const SignupModal: React.FC = () => {
               placeholder="you@example.com"
             />
           </div>
+
+          <div>
+          <label>Mobile Number</label>
+          <PhoneInput
+            country={'in'}
+            value={mobileNumber}
+            onChange={(phone) => setMobileNumber(phone)}
+            inputClass="!w-full !input"
+          />
+        </div>
+
           
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-1">

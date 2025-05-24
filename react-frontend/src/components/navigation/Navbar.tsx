@@ -23,6 +23,9 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   const { isAuthenticated, user, logout } = useAuth();
+  const isCustomerSession = sessionStorage.getItem('loggedInCustomer') === 'true';
+  const isUserAuthenticated = isAuthenticated || isCustomerSession;
+
   const { openModal } = useModal();
   const { totalItems } = useCart();
   const navigate = useNavigate();
@@ -261,7 +264,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
               }}
               className="block py-2 w-full text-left"
             >
-              Contact Us
+              Contact Us 
             </button>
             <div className="py-2">
               <button

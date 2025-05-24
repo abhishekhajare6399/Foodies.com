@@ -1,34 +1,33 @@
 import React, { useState } from 'react';
+import axios from "axios";
 import { X, Eye, EyeOff } from 'lucide-react';
 
-import { useAuth } from '../../contexts/AuthContext';
+// import { useAuth } from '../../contexts/AuthContext';
 import { useModal } from '../../contexts/ModalContext';
 
 const LoginModal: React.FC = () => {
-  const { login } = useAuth();
   const { closeModal, openModal } = useModal();
-  
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    
-    if (!email || !password) {
+     if (!username || !password) {
       setError('All fields are required');
       return;
     }
-    
     setIsLoading(true);
     try {
-      const success = await login(email, password);
-      if (success) {
+      const success = await axios.post("http://localhost:8080/api/login", {
+        username,
+        password,
+      });
+       if (success) {
         closeModal();
       } else {
         setError('Invalid credentials');
@@ -40,6 +39,42 @@ const LoginModal: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  // const { login } = useAuth();
+  // const { closeModal, openModal } = useModal();
+  
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [showPassword, setShowPassword] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
+  
+  // const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError(null);
+    
+  //   if (!email || !password) {
+  //     setError('All fields are required');
+  //     return;
+  //   }
+    
+  //   setIsLoading(true);
+  //   try {
+  //     const success = await login(email, password);
+  //     if (success) {
+  //       closeModal();
+  //     } else {
+  //       setError('Invalid credentials');
+  //     }
+  //   } catch (err) {
+  //     setError('Something went wrong. Please try again.');
+  //     console.error(err);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   
   const openSignupModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -68,10 +103,10 @@ const LoginModal: React.FC = () => {
               Email
             </label>
             <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="username"
+              type="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="input"
               placeholder="you@example.com"
             />
